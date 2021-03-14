@@ -16,48 +16,54 @@ int main() {
     //cin.clear();
     cin >> outFile;
 
-    if ((point = fopen(filename, "rb")) == NULL) {
-        perror(filename);
-        return NULL;
-    }
-    while (fgets(buffer, 500, point) != NULL) {
-        string str = buffer;
-        ++lineCnt;
-        charCnt += strlen(buffer);
-        wordCnt += myfun.countWord(str);
-        myfun.getWord(str);
-    }
-    //myfun.showWord(); //输出所有单词及其出现次数
-    fclose(point);
-
-    ofstream outfile(outFile);
-    string temp1 = "characters: " + to_string(charCnt) + "\n";
-    string temp2 = "words: " + to_string(wordCnt) + "\n";
-    string temp3 = "lines: " + to_string(lineCnt) + "\n";
-
-    cout << "characters: " << charCnt << endl;
-    cout << "words: " << wordCnt << endl;
-    cout << "lines: " << lineCnt << endl;
-
-    // 前3行
-    outfile << temp1 << temp2 << temp3;
-    vector<PAIR> mymapvec(myfun.mymap.begin(), myfun.mymap.end());
-    sort(mymapvec.begin(), mymapvec.end(), CmpByValue());
-    int length1 = mymapvec.size();
-    // 后10行
-    if (length1 <= 10) {
-        for (int i = 0; i != mymapvec.size(); ++i) {
-            outfile << mymapvec[i].first << ": " << mymapvec[i].second << endl;
-            cout << mymapvec[i].first << ": " << mymapvec[i].second << endl;
+    try {
+        if ((point = fopen(filename, "rb")) == NULL) {
+            perror(filename);
+            return NULL;
         }
-    }
-    else {
-        for (int i = 0; i < 10; ++i) {
-            outfile << mymapvec[i].first << ": " << mymapvec[i].second << endl;
-            cout << mymapvec[i].first << ": " << mymapvec[i].second << endl;
+        while (fgets(buffer, 500, point) != NULL) {
+            string str = buffer;
+            ++lineCnt;
+            charCnt += strlen(buffer);
+            wordCnt += myfun.countWord(str);
+            myfun.getWord(str);
         }
+        //myfun.showWord(); //输出所有单词及其出现次数
+        fclose(point);
+
+        ofstream outfile(outFile);
+        string temp1 = "characters: " + to_string(charCnt) + "\n";
+        string temp2 = "words: " + to_string(wordCnt) + "\n";
+        string temp3 = "lines: " + to_string(lineCnt) + "\n";
+
+        cout << "characters: " << charCnt << endl;
+        cout << "words: " << wordCnt << endl;
+        cout << "lines: " << lineCnt << endl;
+
+        // 前3行
+        outfile << temp1 << temp2 << temp3;
+        vector<PAIR> mymapvec(myfun.mymap.begin(), myfun.mymap.end());
+        sort(mymapvec.begin(), mymapvec.end(), CmpByValue());
+        int length1 = mymapvec.size();
+        // 后10行
+        if (length1 <= 10) {
+            for (int i = 0; i != mymapvec.size(); ++i) {
+                outfile << mymapvec[i].first << ": " << mymapvec[i].second << endl;
+                cout << mymapvec[i].first << ": " << mymapvec[i].second << endl;
+            }
+        }
+        else {
+            for (int i = 0; i < 10; ++i) {
+                outfile << mymapvec[i].first << ": " << mymapvec[i].second << endl;
+                cout << mymapvec[i].first << ": " << mymapvec[i].second << endl;
+            }
+        }
+        outfile.close();
     }
-    outfile.close();
+    catch (...) {
+
+    }
+
     return 0;
 }
 
